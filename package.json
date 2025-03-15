@@ -1,6 +1,6 @@
 {
   "name": "netconf",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Netconf nodes",
   "main": "index.js",
   "scripts": {
