@@ -4,13 +4,17 @@
   "description": "Netconf nodes",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd ~/.node-red && npm install /home/joar/Documents/nodered/netconf-node"
   },
   "author": "",
   "license": "ISC",
-  "node-red" : {
+  "node-red": {
     "nodes": {
-        "netconf-get": "netconf-get.js"
+      "netconf-session": "netconf-session.js"
     }
+  },
+  "dependencies": {
+    "easynetconf": "^0.1.1",
+    "module-alias": "^2.2.3"
   }
 }
