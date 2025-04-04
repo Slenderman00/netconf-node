@@ -1,6 +1,6 @@
 {
-  "name": "netconf",
-  "version": "1.0.12",
+  "name": "red-netconf",
+  "version": "0.0.1",
   "description": "Netconf nodes",
   "main": "index.js",
   "scripts": {
