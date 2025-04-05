@@ -1,5 +1,5 @@
 {
-  "name": "red-netconf",
+  "name": "@lightside-instruments/red-netconf",
   "version": "0.0.1",
   "description": "Netconf nodes",
   "main": "index.js",
