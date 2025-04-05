@@ -4,15 +4,27 @@
   "description": "Netconf nodes",
   "main": "index.js",
   "scripts": {
-    "test": "cd ~/.node-red && npm install /home/joar/Documents/nodered/netconf-node"
+
   },
-  "author": "",
+  "author": "Joar Heimonen",
   "license": "ISC",
   "node-red": {
     "nodes": {
       "netconf-session": "netconf-session.js",
       "netconf-command": "netconf-command.js"
     }
+  },
+  "keywords": [
+    "node-red", 
+    "netconf",
+    "yang",
+    "netconf",
+    "yuma",
+    "yangrpc"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Slenderman00/netconf-node"
   },
   "dependencies": {
     "easynetconf": "^0.1.4",
