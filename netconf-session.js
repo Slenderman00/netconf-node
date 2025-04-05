@@ -51,6 +51,7 @@ module.exports = function(RED) {
             session.close();
             session = null;
 
+            storeSessionGlobally();
             done();
         });
 
