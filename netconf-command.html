@@ -1,0 +1,64 @@
+<script type="text/javascript">
+    RED.nodes.registerType('netconf command', {
+        category: 'network',
+        color: '#C0DEED',
+        defaults: {
+            name: {value: ""},
+            sessionNode: {value: "", type: "netconf session", required: true},
+            commandTemplate: {value: "xget /{{path}}/"}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "font-awesome/fa-code",
+        label: function() {
+            return this.name || "NETCONF Command";
+        },
+        oneditprepare: function() {
+            const sessionSelect = $("#node-input-sessionNode");
+            
+            sessionSelect.find("option:not(:first)").remove();
+            
+            const netconfSessionNodes = RED.nodes.filterNodes({type: "netconf session"});
+            
+            for (let i = 0; i < netconfSessionNodes.length; i++) {
+                const node = netconfSessionNodes[i];
+                const label = node.name || (node.host ? `${node.host}:${node.port}` : `Session ${i+1}`);
+                
+                sessionSelect.append($("<option></option>")
+                    .val(node.id)
+                    .text(label)
+                );
+            }
+            
+            sessionSelect.val(this.sessionNode);
+        },
+        oneditsave: function() {
+            this.sessionNode = $("#node-input-sessionNode").val();
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="netconf command">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-sessionNode"><i class="fa fa-link"></i> NETCONF Session</label>
+        <select id="node-input-sessionNode">
+            <option value="">Select a NETCONF session</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-commandTemplate"><i class="fa fa-terminal"></i> Command Template</label>
+        <input type="text" id="node-input-commandTemplate" placeholder="xget /{{path}}/">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="netconf command">
+    <p>A node that parses a yangcli command and sends it to a connected NETCONF session.</p>
+    <h3>Command Template</h3>
+    <p>You can use mustache-style templates in your command, which will be populated with values from the incoming message.</p>
+    <p>For example: <code>xget /{{path}}/</code> will replace <code>{{path}}</code> with the value of <code>msg.path</code>.</p>
+    <p>You can access nested properties like <code>{{payload.device.interface}}</code>.</p>
+</script>

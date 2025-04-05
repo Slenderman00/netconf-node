@@ -48,6 +48,7 @@ module.exports = function(RED) {
                 connectionInterval = null;
             }
 
+            session.close();
             session = null;
 
             done();

@@ -1,6 +1,6 @@
 <script type="text/javascript">
     RED.nodes.registerType('netconf session', {
-        category: 'function',
+        category: 'network',
         color: '#C0DEED',
         defaults: {
             name: { value: "" },
@@ -15,7 +15,7 @@
         outputs: 1,
         icon: "font-awesome/fa-hashtag",
         label: function () {
-            return this.name || "netconf session";
+            return this.name || "NETCONF Session";
         }
     });
 </script>
