@@ -5,8 +5,8 @@ module.exports = function(RED) {
     function netconf_session(config) {
         RED.nodes.createNode(this, config);
         var node = this;
-
         let session = null;
+        let connectionInterval = null;
 
         node.status({fill: "grey", shape: "ring", text: "waiting for config"});
 
@@ -48,10 +48,15 @@ module.exports = function(RED) {
                 connectionInterval = null;
             }
 
-            session.close();
-            session = null;
+            if (session) {
+                //session.close();
+                session = null;
+            }
 
-            storeSessionGlobally();
+            const globalContext = node.context().global;
+            let netconfSessions = globalContext.get('netconfSessions') || {};
+            delete netconfSessions[node.id];
+            globalContext.set('netconfSessions', netconfSessions);
             done();
         });
 
