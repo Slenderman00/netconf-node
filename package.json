@@ -1,6 +1,6 @@
 {
   "name": "@lightside-instruments/red-netconf",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Netconf nodes",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "url": "https://github.com/Slenderman00/netconf-node"
   },
   "dependencies": {
-    "easynetconf": "^0.1.5",
+    "easynetconf": "^0.1.6",
     "module-alias": "^2.2.3"
   }
 }
