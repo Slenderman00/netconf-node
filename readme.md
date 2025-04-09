@@ -25,7 +25,7 @@ Create a new session using the session node
 
 ![session node](https://github.com/Slenderman00/netconf-node/blob/main/images/session.png?raw=true)
 
-Create a command node and select a session.
-The command node parses [yangcli commands](https://yuma123.org/wiki/index.php/Yuma_yangcli_Manual#Command_Prompt) and performs the relevant action on the netconf server 
+Create a yangcli node and select a session.
+The yangcli node parses [yangcli commands](https://yuma123.org/wiki/index.php/Yuma_yangcli_Manual#Command_Prompt) and performs the relevant action on the netconf server 
 
-![command node](https://raw.githubusercontent.com/Slenderman00/netconf-node/refs/heads/main/images/commands.png)
+![yangcli node](https://raw.githubusercontent.com/Slenderman00/netconf-node/refs/heads/main/images/commands.png)
