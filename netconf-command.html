@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('netconf command', {
+    RED.nodes.registerType('netconf yangcli', {
         category: 'network',
         color: '#C0DEED',
         defaults: {
@@ -11,7 +11,7 @@
         outputs: 1,
         icon: "font-awesome/fa-code",
         label: function() {
-            return this.name || "NETCONF Command";
+            return this.name || "NETCONF yangcli";
         },
         oneditprepare: function() {
             const sessionSelect = $("#node-input-sessionNode");
@@ -38,7 +38,7 @@
     });
 </script>
 
-<script type="text/html" data-template-name="netconf command">
+<script type="text/html" data-template-name="netconf yangcli">
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">

@@ -46,5 +46,5 @@ module.exports = function(RED) {
 
 
     
-    RED.nodes.registerType("netconf command", NetconfCommandNode);
+    RED.nodes.registerType("netconf yangcli", NetconfCommandNode);
 }
