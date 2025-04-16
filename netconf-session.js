@@ -17,6 +17,13 @@ module.exports = function(RED) {
             globalContext.set('netconfSessions', netconfSessions);
         }
 
+        function deleteSessionGlobally() {
+            const globalContext = node.context().global;
+            let netconfSessions = globalContext.get('netconfSessions') || {};
+            delete netconfSessions[node.id];
+            globalContext.set('netconfSessions', netconfSessions);
+        }
+
         function checkAndConnect() {
             if (!(config.host && config.port && config.username && (config.password || (config.privpath && config.pubpath)))) return;
 
@@ -37,20 +44,10 @@ module.exports = function(RED) {
                 node.error(`NETCONF Setup Error: ${err.message}`);
                 node.status({fill: "red", shape: "dot", text: "setup error"});
             });
-
-
-            // try {
-            //     session = new easyNetconf(config.host, config.port, config.username, config.password, config.privpath, config.pubpath);
-            //     node.status({fill: "green", shape: "dot", text: "connected"});
-            //     storeSessionGlobally();
-            // } catch (err) {
-            //     node.error(`NETCONF Setup Error: ${err.message}`);
-            //     node.status({fill: "red", shape: "dot", text: "setup error"});
-            // }
         }
 
         easyNetconf.ready().then(() => {
-            connectionInterval = setInterval(checkAndConnect, 60000);
+            connectionInterval = setInterval(checkAndConnect, 10000);
             checkAndConnect();
         });
 
@@ -60,17 +57,12 @@ module.exports = function(RED) {
                 connectionInterval = null;
             }
 
-            if (session) {
-                setTimeout(() => {
-                    session.close();
-                    session = null;
-                }, 1000);
+            if (session.connected) {
+                //session.close();
+                session.connected = false
             }
 
-            const globalContext = node.context().global;
-            let netconfSessions = globalContext.get('netconfSessions') || {};
-            delete netconfSessions[node.id];
-            globalContext.set('netconfSessions', netconfSessions);
+            deleteSessionGlobally();
             done();
         });
 

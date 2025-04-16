@@ -18,6 +18,7 @@ module.exports = function(RED) {
                 if(!session.connected) {
                     node.error("NETCONF session not connected", msg);
                     node.status({fill: "red", shape: "ring", text: "waiting for connection"});
+                    return;
                 }
                 node.status({fill: "green", shape: "ring", text: "session"});
             }
