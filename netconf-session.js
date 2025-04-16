@@ -58,7 +58,7 @@ module.exports = function(RED) {
             }
 
             if (session.connected) {
-                //session.close();
+                session.close();
                 session.connected = false
             }
 
