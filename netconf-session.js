@@ -27,18 +27,30 @@ module.exports = function(RED) {
             }
 
             node.status({fill: "yellow", shape: "dot", text: "connecting..."});
-            try {
-                session = new easyNetconf(config.host, config.port, config.username, config.password, config.privpath, config.pubpath);
+
+            session = new easyNetconf()
+
+            session.async_connect(config.host, config.port, config.username, config.password, config.privpath, config.pubpath).then((result) => {
                 node.status({fill: "green", shape: "dot", text: "connected"});
                 storeSessionGlobally();
-            } catch (err) {
+            }).catch((err) => {
                 node.error(`NETCONF Setup Error: ${err.message}`);
                 node.status({fill: "red", shape: "dot", text: "setup error"});
-            }
+            });
+
+
+            // try {
+            //     session = new easyNetconf(config.host, config.port, config.username, config.password, config.privpath, config.pubpath);
+            //     node.status({fill: "green", shape: "dot", text: "connected"});
+            //     storeSessionGlobally();
+            // } catch (err) {
+            //     node.error(`NETCONF Setup Error: ${err.message}`);
+            //     node.status({fill: "red", shape: "dot", text: "setup error"});
+            // }
         }
 
         easyNetconf.ready().then(() => {
-            connectionInterval = setInterval(checkAndConnect, 10000);
+            connectionInterval = setInterval(checkAndConnect, 60000);
             checkAndConnect();
         });
 
@@ -49,8 +61,10 @@ module.exports = function(RED) {
             }
 
             if (session) {
-                //session.close();
-                session = null;
+                setTimeout(() => {
+                    session.close();
+                    session = null;
+                }, 1000);
             }
 
             const globalContext = node.context().global;
