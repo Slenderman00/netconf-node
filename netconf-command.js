@@ -8,6 +8,14 @@ module.exports = function(RED) {
         node.on('input', function(msg) {
             const globalContext = node.context().global;
             const netconfSessions = globalContext.get('netconfSessions') || {};
+            const netconfSessionStatus = globalContext.get('netconfSessionStatus') || {};
+            
+            if (netconfSessionStatus[sessionNodeId] && netconfSessionStatus[sessionNodeId].isShuttingDown) {
+                node.error("NETCONF session is shutting down", msg);
+                node.status({fill: "red", shape: "ring", text: "session closing"});
+                return;
+            }
+            
             session = netconfSessions[sessionNodeId];
             
             if (!session) {
@@ -30,22 +38,22 @@ module.exports = function(RED) {
                 msg
             );
 
-            let res = session.perform(command)
-
-            msg.payload = res;
-            msg.command = command;
-
-            node.send(msg);
+            try {
+                let res = session.perform(command);
+                msg.payload = res;
+                msg.command = command;
+                node.send(msg);
+            } catch (err) {
+                node.error(`Command execution error: ${err.message}`, msg);
+                node.status({fill: "red", shape: "dot", text: "execution error"});
+            }
         });
         
         node.on('close', function(done) {
             session = null;
-    
             done();
         });
     }
-
-
     
     RED.nodes.registerType("netconf yangcli", NetconfCommandNode);
 }
