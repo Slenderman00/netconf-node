@@ -63,8 +63,8 @@ module.exports = function(RED) {
                 
                 node.status({fill: "green", shape: "dot", text: "connected"});
                 storeSessionGlobally();
-            }).catch((err) => {
-                node.error(`NETCONF Setup Error: ${err.message}`);
+            }).catch((e) => {
+                node.error(`NETCONF Setup Error: ${e}`);
                 node.status({fill: "red", shape: "dot", text: "setup error"});
             });
         }
