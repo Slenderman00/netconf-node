@@ -4,6 +4,23 @@ module.exports = function(RED) {
         const node = this;
         let session = null;
         const sessionNodeId = config.sessionNode;
+
+        function parseCommand(commandTemplate, msg) {
+            if (!commandTemplate) return '';
+            return commandTemplate.replace(/\{\{([\w\.]+)\}\}/g, function(match, property) {
+                let value = msg;
+                const props = property.split('.');
+                
+                for (let i = 0; i < props.length; i++) {
+                    if (value === null || value === undefined) {
+                        return '';
+                    }
+                    value = value[props[i]];
+                }
+                
+                return value !== undefined && value !== null ? value : '';
+            });
+        }
         
         node.on('input', function(msg) {
             const globalContext = node.context().global;
@@ -31,12 +48,7 @@ module.exports = function(RED) {
                 node.status({fill: "green", shape: "ring", text: "session"});
             }
 
-            const command = RED.util.evaluateNodeProperty(
-                config.commandTemplate,
-                'mustache',
-                node,
-                msg
-            );
+            const command = parseCommand(config.commandTemplate, msg);
 
             try {
                 let res = session.perform(command);
